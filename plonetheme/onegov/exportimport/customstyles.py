@@ -1,6 +1,7 @@
 from plonetheme.onegov.interfaces import ICustomStyles
 import json
 import re
+from six.moves import filter
 
 
 FILENAME_PATTERN = re.compile(r'^customstyles.*\.json$')
@@ -17,7 +18,7 @@ def importCustomstyles(import_context):
     """
 
     files = import_context.listDirectory('.') or []
-    filenames = filter(FILENAME_PATTERN.match, files)
+    filenames = list(filter(FILENAME_PATTERN.match, files))
 
     for filename in filenames:
         filedata = import_context.readDataFile(filename)

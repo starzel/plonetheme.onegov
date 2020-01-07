@@ -20,6 +20,8 @@ from zope.publisher.browser import BrowserView
 import json
 import os
 import time
+from six.moves import filter
+from six.moves import map
 
 
 CUSTOM_STYLE_OPTIONS = [
@@ -53,8 +55,8 @@ CUSTOM_IMAGE_PATHS = [
 def cache_key(method, self):
     cachekey_prefix = '{}.{}'.format(self.__name__, method.__name__)
     # Do not cache if the css debug mode is on
-    cssregistry = getToolByName(self.context, 'portal_css')
-    if cssregistry.getDebugMode():
+    debug_mode_enabled = is_debug_mode_enabled()
+    if debug_mode_enabled:
         return "{}.{}".format(cachekey_prefix, str(time.time()))
     # Otherwise return the navigation roots uuid
     portal_url = getToolByName(self.context, 'portal_url')()
@@ -109,7 +111,7 @@ class CustomStylesForm(BrowserView):
                 return True
             return False
 
-        styles = dict(filter(include, items.items()))
+        styles = dict(list(filter(include, list(items.items()))))
         adapter = ICustomStyles(self.context)
         styles[TIMESTAMP_ANNOTATION_KEY] = str(time.time()).replace('.','')
         adapter.set_styles(styles)

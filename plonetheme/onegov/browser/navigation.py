@@ -9,14 +9,16 @@ from Products.CMFPlone.browser.navigation import get_view_url
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.browser.interfaces import IBrowserView
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces import IPublishTraverse
 from zope.publisher.interfaces import NotFound
 import hashlib
 import os
+from six.moves import map
 
 
+@implementer(IPublishTraverse)
 class LoadFlyoutChildren(BrowserView):
     """ This view will be called on all breadcrumb-elements
     by the flyoutpathbar.js on pageload.
@@ -24,8 +26,6 @@ class LoadFlyoutChildren(BrowserView):
     The .js will append the generated html to the path-bar and
     set it visible if you click on the related toplevel-object.
     """
-
-    implements(IPublishTraverse)
 
     template = ViewPageTemplateFile('flyout.pt')
 
@@ -114,7 +114,7 @@ class LoadFlyoutChildren(BrowserView):
         return last_modified
 
     def get_template_modified_timestamp(self):
-        page_template = self.template.im_func
+        page_template = self.template.__func__
         page_template._cook_check()
         if page_template._v_last_read:
             return str(page_template._v_last_read)
@@ -152,7 +152,7 @@ class LoadFlyoutChildren(BrowserView):
         return query
 
     def tree(self):
-        return make_tree_by_url(map(self.brain_to_node, self.get_brains()))
+        return make_tree_by_url(list(map(self.brain_to_node, self.get_brains())))
 
     def get_css_class(self, node):
         classes = []
