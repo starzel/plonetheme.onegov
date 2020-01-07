@@ -2,7 +2,5 @@
 <metadata>
     <dependencies>
         <dependency>profile-plone.app.theming:default</dependency>
-        <dependency>profile-collective.mtrsetup:default</dependency>
-        <dependency>profile-ftw.logo:default</dependency>
     </dependencies>
 </metadata>

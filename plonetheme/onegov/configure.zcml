@@ -32,12 +32,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <!--
-  The profile "plonetheme.onegov:default" needs to be registered
-  before registering its upgrade step directory.
-   -->
-  <include package=".upgrades" />
-
   <plone:static type="theme" directory="resources" />
 
   <theme:add_scss path="resources/sass/post_variables.scss" />

@@ -4,15 +4,9 @@ import os
 version = '3.3.1.dev0'
 
 tests_require = [
-    'ftw.builder',
-    'ftw.solr',
-    'ftw.testbrowser',
-    'ftw.subsite',
-    'ftw.testing<2a',
     'plone.app.testing',
     'plone.resource',
     'pyquery',
-    'unittest2',
     'plone.app.contenttypes',
     ]
 
@@ -39,13 +33,10 @@ setup(name='plonetheme.onegov',
       install_requires=[
         'plone.app.theming',
         'Products.CMFCore',
-        'collective.mtrsetup',
-        'ftw.upgrade',
         'setuptools',
         'plone.batching',
         'PyScss',
         'plone.api',
-        'ftw.logo',
         ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
